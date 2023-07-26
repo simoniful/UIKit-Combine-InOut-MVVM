@@ -19,6 +19,9 @@ final class MainViewController: UIViewController {
   private lazy var input: PassthroughSubject<MainViewModel.Input, Never> = .init()
   private lazy var output = viewModel.transform(input: input.eraseToAnyPublisher())
   
+  var diffableDataSource: MoviesTableViewDiffableDataSource!
+  var snapshot = NSDiffableDataSourceSnapshot<String?, Result>()
+  
   init(viewModel: MainViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -41,7 +44,7 @@ final class MainViewController: UIViewController {
   
   private func bind() {
     // MARK: Table Bind
-    viewModel.diffableDataSource = MoviesTableViewDiffableDataSource(
+    self.diffableDataSource = MoviesTableViewDiffableDataSource(
       tableView: self.mainView.tableView
     ) { (tableView, indexPath, model) -> UITableViewCell? in
         guard let cell = tableView.dequeueReusableCell(
@@ -71,9 +74,28 @@ final class MainViewController: UIViewController {
     output
       .receive(on: DispatchQueue.main)
       .sink { [weak self] event in
+        guard let self = self else { return }
         switch event {
-        case .completeDataFetch():
-          print("Indicator 종료")
+        case .movieListData(let results):
+          
+          guard self.diffableDataSource != nil else { return }
+                
+          self.snapshot.deleteAllItems()
+          self.snapshot.appendSections([""])
+          
+          if results.isEmpty {
+            self.diffableDataSource.apply(
+              self.snapshot,
+              animatingDifferences: true
+            )
+            return
+          }
+          
+          self.snapshot.appendItems(results, toSection: "")
+          self.diffableDataSource.apply(
+            self.snapshot,
+            animatingDifferences: true
+          )
         }
       }
       .store(in: &cancellables)

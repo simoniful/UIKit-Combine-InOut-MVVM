@@ -5,15 +5,12 @@
 //  Created by Sang hun Lee on 2023/07/25.
 //
 
-import UIKit
+import Foundation
 import Combine
 
 final class MainViewModel: ViewModel {
   private let serviceProvider = Service.sharedInstance
   var cancellables = Set<AnyCancellable>()
-  
-  var diffableDataSource: MoviesTableViewDiffableDataSource!
-  var snapshot = NSDiffableDataSourceSnapshot<String?, Result>()
   
   enum Input {
     case viewDidLoad(Void)
@@ -21,8 +18,7 @@ final class MainViewModel: ViewModel {
   }
   
   enum Output {
-    case completeDataFetch(Void)
-    // case dataSource(MoviesTableViewDiffableDataSource)
+    case movieListData([Result])
   }
   
   private let outPut: PassthroughSubject<Output, Never> = .init()
@@ -34,21 +30,15 @@ final class MainViewModel: ViewModel {
       .sink { [weak self] event in
         switch event {
         case .viewDidLoad(_):
-          self?.fetchMovies(keyword: "") {
-            self?.outPut.send(.completeDataFetch(Void()))
+          self?.fetchMovies(keyword: "") { [weak self] results in
+            self?.outPut.send(.movieListData(results))
           }
-//          guard let diffableDataSource = self?.diffableDataSource else { return }
-//          self?.outPut.send(
-//            .dataSource(diffableDataSource)
-//          )
+
         case .searchKeyword(let keyword):
-          self?.fetchMovies(keyword: keyword){
-            self?.outPut.send(.completeDataFetch(Void()))
+          self?.fetchMovies(keyword: keyword){ [weak self] results in
+            self?.outPut.send(.movieListData(results))
           }
-//          guard let diffableDataSource = self?.diffableDataSource else { return }
-//          self?.outPut.send(
-//            .dataSource(diffableDataSource)
-//          )
+
         }
       }
       .store(in: &cancellables)
@@ -58,21 +48,10 @@ final class MainViewModel: ViewModel {
   
   private func fetchMovies(
     keyword: String,
-    completionhandelr: @escaping () -> Void
+    completionhandelr: @escaping ([Result]) -> Void
   ) {
     serviceProvider.fetchFilms(for: keyword) { (results) in
-      guard self.diffableDataSource != nil else { return }
-      
-      self.snapshot.deleteAllItems()
-      self.snapshot.appendSections([""])
-      
-      if results.isEmpty {
-        self.diffableDataSource.apply(self.snapshot, animatingDifferences: true)
-        return
-      }
-      
-      self.snapshot.appendItems(results, toSection: "")
-      self.diffableDataSource.apply(self.snapshot, animatingDifferences: true)
+      completionhandelr(results)
     }
   }
 }
