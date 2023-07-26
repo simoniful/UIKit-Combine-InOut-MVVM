@@ -83,7 +83,7 @@
 				F4CE22E92A6ECBBB0051B29D /* Application */,
 				F4CE22EC2A6ECDBE0051B29D /* Presentation */,
 				F4CE23032A700AB50051B29D /* Service */,
-				F4CE22F42A6ED31B0051B29D /* Shared */,
+				F4CE22F42A6ED31B0051B29D /* Utils */,
 				F4CE22B42A6B96A30051B29D /* Assets.xcassets */,
 				F4CE22B62A6B96A30051B29D /* LaunchScreen.storyboard */,
 				F4CE22B92A6B96A30051B29D /* Info.plist */,
@@ -118,13 +118,13 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		F4CE22F42A6ED31B0051B29D /* Shared */ = {
+		F4CE22F42A6ED31B0051B29D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				F4CE230B2A7021370051B29D /* Protocols */,
 				F4CE22F32A6ED30D0051B29D /* Extensions */,
 			);
-			name = Shared;
+			name = Utils;
 			path = Extension;
 			sourceTree = "<group>";
 		};
