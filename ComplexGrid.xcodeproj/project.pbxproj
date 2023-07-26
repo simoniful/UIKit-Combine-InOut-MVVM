@@ -83,7 +83,7 @@
 				F4CE22E92A6ECBBB0051B29D /* Application */,
 				F4CE22EC2A6ECDBE0051B29D /* Presentation */,
 				F4CE23032A700AB50051B29D /* Service */,
-				F4CE22F42A6ED31B0051B29D /* Utils */,
+				F4CE23162A70BBA80051B29D /* Utils */,
 				F4CE22B42A6B96A30051B29D /* Assets.xcassets */,
 				F4CE22B62A6B96A30051B29D /* LaunchScreen.storyboard */,
 				F4CE22B92A6B96A30051B29D /* Info.plist */,
@@ -108,24 +108,6 @@
 				F4CE23092A701F770051B29D /* ViewModel */,
 			);
 			path = Presentation;
-			sourceTree = "<group>";
-		};
-		F4CE22F32A6ED30D0051B29D /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				F4CE22F12A6ED3090051B29D /* UIViewController+.swift */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
-		F4CE22F42A6ED31B0051B29D /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				F4CE230B2A7021370051B29D /* Protocols */,
-				F4CE22F32A6ED30D0051B29D /* Extensions */,
-			);
-			name = Utils;
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		F4CE23032A700AB50051B29D /* Service */ = {
@@ -163,12 +145,29 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		F4CE230B2A7021370051B29D /* Protocols */ = {
+		F4CE23152A70BB870051B29D /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				F4CE230C2A70214A0051B29D /* ViewModel.swift */,
 			);
-			name = Protocols;
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		F4CE23162A70BBA80051B29D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F4CE23172A70BBB70051B29D /* Extensions */,
+				F4CE23152A70BB870051B29D /* Protocols */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		F4CE23172A70BBB70051B29D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F4CE22F12A6ED3090051B29D /* UIViewController+.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
